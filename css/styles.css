@@ -1,0 +1,28 @@
+body {
+  /* background-color: blue; */
+}
+
+.choices {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+
+.answer-choice {
+  display: flex;
+  margin-bottom: 10px;
+}
+
+.answer-choice-label {
+  margin-left: 10px;
+}
+
+.choices-header {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.question {
+  font-size: 1.5rem;
+}
