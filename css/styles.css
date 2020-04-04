@@ -1,21 +1,19 @@
-body {
-  /* background-color: blue; */
-}
-
 .choices {
-  display: flex;
-  flex-direction: column;
   margin-bottom: 10px;
   margin-top: 10px;
+  display: flex;
+  flex-direction: row;
 }
 
 .answer-choice {
   display: flex;
+  /* flex-direction: row; */
   margin-bottom: 10px;
 }
 
 .answer-choice-label {
   margin-left: 10px;
+
 }
 
 .choices-header {
@@ -23,6 +21,39 @@ body {
   font-weight: bold;
 }
 
+
 .question {
   font-size: 1.5rem;
+}
+
+.choice-image {
+  max-width: 100px; /* you can use % */
+  height: auto;
+}
+
+.quiz-container{
+  position: relative
+}
+
+.question-container p {
+  /* float: left;
+  width: 50px; */
+}
+
+/* .thumbnail:hover {
+    position:relative;
+    top:-25px;
+    left:-35px;
+    width:100px;
+    height:auto;
+    display:block;
+    z-index:auto;
+} */
+
+.correct {
+  border: 2px green solid;
+}
+
+.incorrect {
+  border: 2px red solid;
 }

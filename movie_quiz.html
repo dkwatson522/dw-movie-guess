@@ -1,56 +1,32 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <title>Movie Quiz</title>
-    <link rel="stylesheet" href="./css/styles.css">
-  </head>
-  <body>
 
-    <p class="question">
-      After her breakup with the Joker, Harley Quinn joins forces with singer Black Canary, assassin Huntress, and police detective Renee Montoya to help a young girl named Cassandra, who had a hit placed on her after she stole a rare diamond from crime lord Roman Sionis.
-    </p>
+<head>
+  <meta charset="utf-8">
+  <title>Movie Quiz</title>
+  <link rel="stylesheet" href="./css/styles.css">
+</head>
 
-    <div class="choices-container">
-      <div class="choices-header">
-        Choices:
-      </div>
-    </div>
-      <div class="choices">
-        <div class="answer-choice">
-          <input type="radio" name="movie" id="movie">
-          <span class='answer-choice-label'>Parasite</span>
-        </div>
-        <!-- <div class="answer-choice">
-          <input type="radio" name="movie" id="movie">
-          <span class='answer-choice-label'>Parasite</span>
-        </div>
-        <div class="answer-choice">
-          <input type="radio" name="movie" id="movie">
-          <span class='answer-choice-label'>Parasite</span>
-        </div>
-        <div class="answer-choice">
-          <input type="radio" name="movie" id="movie">
-          <span class='answer-choice-label'>Parasite</span>
-        </div> -->
-      </div>
-    <div class="">
-      <button type="button" id="previous">
-          Previous
-      </button>
-
-      <button type="button" id=next>
-          Next
-      </button>
+<body>
+  <div class="quiz-container">
+    <div class="question-list">
     </div>
 
+    <div class="button-container">
+      <button type="button" id="previous-page">
+        Go Back
+      </button>
 
-    <script
-      src="https://code.jquery.com/jquery-3.4.1.js"
-      integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
-      crossorigin="anonymous"></script>
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lodash@4.17.15/lodash.min.js"></script>
-    <script src="js/main.js"></script>
-  </body>
+      <button type="button" id="see-results">
+        See Results
+      </button>
+    </div>
+  </div>
+  <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+    crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lodash@4.17.15/lodash.min.js"></script>
+  <script src="js/main.js"></script>
+</body>
+
 </html>

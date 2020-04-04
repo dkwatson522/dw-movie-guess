@@ -1,43 +1,67 @@
 $(function () {
-  console.log($("#movie").text())
   const questionList = []
   const questionChoices = []
+  let answerArray = []
   const apiKey = "768202ad02f0dc8a03660578ed2c5f4d"
   const trendingMovieUrl = "https://api.themoviedb.org/3/trending/movie/week"
+  const imageUrl = "https://image.tmdb.org/t/p/w300_and_h450_bestv2/"
+  let quizScore = 0
   //add anonymous arrow function for next button
-  $("#next").click(()=> {
-    console.log("next")
+  $("#see-results").click(() => {
+    //console.log("results")
+    $(".choices").each(function(index) {
+      // // answerArray.includes(parseInt($('input[type=radio][name=${}]:checked').attr('id')))
+      // var item1 = $( "li.item-1" )[ 0 ];
+      // $( "li.item-ii" ).find( item1 ).css( "background-color", "red" );
+      //$ as jQuery object(naming convention;best practice)
+      const $selectedChoice = $("input:checked")
+      console.log($(this).find($selectedChoice).attr("id"))
+      const currentId = $(this).find($selectedChoice).attr("id")
+      console.log(`Current ID - ${currentId}`)
+      const correctId = $(this).find("input").first().attr("name")
+      console.log(`Correct ID - ${correctId}`)
+      console.log(currentId === correctId)
+
+      if (currentId === correctId) {
+        console.log("selected correct answer")
+        $(this).find($selectedChoice).parent().attr("class", "button-choice choice")
+      }
+
+    })
   })
   //add anonymous arrow function for previous button
-  $("#previous").click(()=> {
-    console.log("previous")
-    $(this).css("background","red")
+  $("#previous").click(() => {
+    // console.log("previous")
+    $(this).css("background", "red")
   })
 
   trendingMovies()
+  //updateScore()
 
   function trendingMovies() {
     $.ajax({
       url: trendingMovieUrl,
       type: "GET",
-      data:{api_key:apiKey}
+      data: { api_key: apiKey }
     })
-    .done((response) => {
-      const movies = response.results
-    //  console.log(response)
+      .done((response) => {
+        const movies = response.results
+        //  console.log(response)
 
-      console.log(movies)
-      //$("#movie").text(output)
+        // console.log(movies)
+        //$("#movie").text(output)
 
-      createQuestions(movies)
-    })
-    .fail(() => {
-      alert("an error occured")
-    })
+        createQuestions(movies)
+      })
+      .fail(() => {
+        alert("an error occured")
+      })
   }
+
   function createQuestions(results) {
+    //lojack to shuffle the parameter passed into function
     const shuffledResults = _.shuffle(results)
-    console.log(shuffledResults)
+    // console.log(shuffledResults)
     //iterate through the array
     //structure - [[],[],[],[],[]]
     let question = []
@@ -53,36 +77,65 @@ $(function () {
     })
     console.log(questionList)
 
-     updateUi(questionList)
+    updateUi(questionList)
   }
 
+  //undefined
+  let questionArrayOne, questionArrayTwo, questionArrayThree, questionArrayFour, questionArrayFive
+
   function updateUi(choices) {
+    console.log(choices)
     //4 choices for each question; 5 questions
     //loop through the questionList array to pull the 4 properties for title
     //prints the amount of arrays there are
-    let questionChoices = []
-    console.log(choices.length)
-    //loops through input arrays to print object
-    for(i=0;i<choices.length;i++) {
-      let questionChoices = choices[i]
-      console.log(questionChoices)
-      const movieHtml =
-        `
-        <input type="radio" name="movie" id="movie">
-        <span class='answer-choice-label'>$(questionChoices)</span>
-        `
-      //random selection from each array for answer
-      const answer = _.sample(questionChoices)
-      $(".question").text(answer.overview)
-      console.log(answer.overview)
-
-      //loops through and provide template literals
-      for(index=0;index<questionChoices.length;index++) {
-        let results = questionChoices[index].title
-        console.log(results)
-
-      }
-
-    }
+    questionList.forEach((questions) => {
+      const questionHtml = processQuestion(questions)
+      //console.log(questionHtml)
+      $(".question-list").append(questionHtml)
+    })
   }
+
+  function processQuestion(movies) {
+    //select a random movie to be the correct movie
+    const selectedMovie = _.sample(movies)
+    console.log(selectedMovie)
+    answerArray.push(selectedMovie.id)
+    const choicesHtml = movies.map((movie) => {
+      return buildAnswerChoiceHtml(movie.title,movie.id,movie.poster_path,selectedMovie.id)
+    }).join('')
+    //console.log(choicesHtml)
+    return buildQuestionHtml(selectedMovie.overview, choicesHtml)
+  }
+
+  function buildAnswerChoiceHtml (movieTitle,movieId,movieImage,selectedMovieId) {
+    return (
+      `<div class="answer-choice">
+        <input type="radio" class="choice-button" name="${selectedMovieId}" id="${movieId}">
+        <span class='answer-choice-label'> <img class="choice-image" src="${imageUrl}${movieImage}"></img> ${movieTitle}</span>
+      </div>`
+    )
+  }
+
+  function buildQuestionHtml(movieOverview, answerChoicesHtml) {
+    return (
+      `<div class="question-container">
+        <p class="question">
+          Movie Overview -  ${movieOverview}
+        </p>
+
+        <div class="choices-container">
+          <div class="choices-header">
+            Choices:
+              <div class="choices">
+                ${answerChoicesHtml}
+              </div>
+          </div>
+        </div>
+      </div>`
+    )
+  }
+  // function updateScore() {
+  //   let buttonChoice =  answerArray.includes(parseInt($('input[type=radio][name=${}]:checked').attr('id')))
+  //   console.log(buttonChoice)
+  // }
 })
