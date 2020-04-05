@@ -4,6 +4,7 @@ $(function () {
   let answerArray = []
   const apiKey = "768202ad02f0dc8a03660578ed2c5f4d"
   const trendingMovieUrl = "https://api.themoviedb.org/3/trending/movie/week"
+  const trendingTvUrl = "https://api.themoviedb.org/3/trending/tv/week"
   const imageUrl = "https://image.tmdb.org/t/p/w300_and_h450_bestv2/"
   let quizScore = 0
   //add anonymous arrow function for next button
@@ -24,9 +25,14 @@ $(function () {
 
       if (currentId === correctId) {
         console.log("selected correct answer")
-        $(this).find($selectedChoice).parent().attr("class", "button-choice choice")
+        $(this).find($selectedChoice).parent().attr("class", "button-choice correct")
+      } else {
+        console.log("selected incorrect answer")
+        //adds CSS style to incorrect selection
+        $(this).find($selectedChoice).parent().attr("class", "button-choice incorrect")
+        //adds CSS style to choice with correct ID
+        $(this).find("#" + correctId).parent().attr("class", "button-choice correct")
       }
-
     })
   })
   //add anonymous arrow function for previous button
@@ -35,7 +41,13 @@ $(function () {
     $(this).css("background", "red")
   })
 
+  $("#movie-link").click(() => {
+    window.location.href = 'movie_quiz.html'
+    console.log("go to movie quiz")
+  })
+
   trendingMovies()
+  trendingTvShows()
   //updateScore()
 
   function trendingMovies() {
@@ -52,6 +64,22 @@ $(function () {
         //$("#movie").text(output)
 
         createQuestions(movies)
+      })
+      .fail(() => {
+        alert("an error occured")
+      })
+  }
+
+  function trendingTvShows() {
+    $.ajax({
+      url: trendingTvUrl,
+      type: "GET",
+      data: { api_key: apiKey }
+    })
+      .done((response) => {
+        const movies = response.results
+
+        createQuestions(tvShows)
       })
       .fail(() => {
         alert("an error occured")
@@ -79,9 +107,6 @@ $(function () {
 
     updateUi(questionList)
   }
-
-  //undefined
-  let questionArrayOne, questionArrayTwo, questionArrayThree, questionArrayFour, questionArrayFive
 
   function updateUi(choices) {
     console.log(choices)
