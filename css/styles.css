@@ -109,3 +109,8 @@ p {
   max-width:50%;
   text-align: center;
 }
+
+ol {
+  font-family: 'Raleway', sans-serif;
+  font-size: 1.5rem;
+}
