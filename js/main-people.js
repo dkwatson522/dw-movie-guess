@@ -5,6 +5,7 @@ $(function () {
   const apiKey = "768202ad02f0dc8a03660578ed2c5f4d"
   const trendingMovieUrl = "https://api.themoviedb.org/3/trending/movie/week"
   const trendingTvUrl = "https://api.themoviedb.org/3/trending/tv/week"
+  const trendingPeopleUrl = "https://api.themoviedb.org/3/trending/person/week"
   const imageUrl = "https://image.tmdb.org/t/p/w300_and_h450_bestv2/"
   let quizScore = 0
   //add anonymous arrow function for next button
@@ -62,55 +63,33 @@ $(function () {
     window.onload = function() {
       trendingTvShows();
     }
-    console.log("go to tv quiz")
+    console.log("go to people quiz")
   })
 
   $("#reset").click(() => {
     location.reload()
     })
 
-  trendingMovies()
+  trendingPeople()
   //trendingTvShows()
 
 
-  function trendingMovies() {
+  function trendingPeople() {
     $.ajax({
-      url: trendingMovieUrl,
+      url: trendingPeopleUrl,
       type: "GET",
       data: { api_key: apiKey }
     })
       .done((response) => {
-        const movies = response.results
+        const people = response.results
         //  console.log(response)
 
-        // console.log(movies)
-        //$("#movie").text(output)
-
-        createQuestions(movies)
+        createQuestions(people)
       })
       .fail(() => {
         alert("an error occured")
       })
-  }
 
-  function trendingTvShows() {
-    $.ajax({
-      url: trendingTvUrl,
-      type: "GET",
-      data: { api_key: apiKey }
-    })
-      .done((response) => {
-        const tvShows = response.results
-        //  console.log(response)
-
-        // console.log(movies)
-        //$("#movie").text(output)
-
-        createQuestions(tvShows)
-      })
-      .fail(() => {
-        alert("an error occured")
-      })
   }
 
   function createQuestions(results) {
@@ -130,7 +109,7 @@ $(function () {
       }
 
     })
-    //console.log(questionList)
+    console.log(questionList)
 
     updateUi(questionList)
   }
@@ -147,34 +126,38 @@ $(function () {
     })
   }
 
-  function processQuestion(movies) {
+  function processQuestion(people) {
     //select a random movie to be the correct movie
-    const selectedMovie = _.sample(movies)
-    console.log(selectedMovie)
-    answerArray.push(selectedMovie.id)
-    const choicesHtml = movies.map((movie) => {
-      return buildAnswerChoiceHtml(movie.title,movie.id,movie.poster_path,selectedMovie.id)
+    const selectedPerson = _.sample(people)
+    console.log(selectedPerson)
+    answerArray.push(selectedPerson.id)
+    const choicesHtml = people.map((person) => {
+      return buildAnswerChoiceHtml(person.name,person.id,person.known_for_department,person.profile_path,selectedPerson.id)
     }).join('')
     //console.log(choicesHtml)
-    return buildQuestionHtml(selectedMovie.overview, choicesHtml)
+    return buildQuestionHtml(selectedPerson.known_for[0].title,selectedPerson.known_for[1].title,selectedPerson.known_for[2].title, choicesHtml)
   }
 
-  function buildAnswerChoiceHtml (movieTitle,movieId,movieImage,selectedMovieId) {
+  function buildAnswerChoiceHtml (personName,personId,personKnownFor,personImage,selectedPersonId) {
     return (
       `<div class="answer-choice">
-        <input type="radio" class="choice-button" name="${selectedMovieId}" id="${movieId}">
-        <span class='answer-choice-label'> <img class="choice-image" src="${imageUrl}${movieImage}"></img> ${movieTitle}</span>
+        <input type="radio" class="choice-button" name="${selectedPersonId}" id="${personId}">
+        <span class='answer-choice-label'> <img class="choice-image" src="${imageUrl}${personImage}"></img> ${personName}</span>
       </div>`
     )
   }
 
-  function buildQuestionHtml(movieOverview, answerChoicesHtml) {
+  function buildQuestionHtml(personKnownForZero,personKnownForOne,personKnownForTwo, answerChoicesHtml) {
     return (
       `<div class="question-container">
         <p class="question">
-          Movie Overview -  ${movieOverview}
+          This person is asscoiated with
         </p>
-
+        <ol>
+          <li>${personKnownForZero}</li>
+          <li>${personKnownForOne}</li>
+          <li>${personKnownForTwo}</li>
+        </ol>
         <div class="choices-container">
           <div class="choices-header">
             Choices:
@@ -186,8 +169,4 @@ $(function () {
       </div>`
     )
   }
-  // function updateScore() {
-  //   let buttonChoice =  answerArray.includes(parseInt($('input[type=radio][name=${}]:checked').attr('id')))
-  //   console.log(buttonChoice)
-  // }
 })
