@@ -1,8 +1,27 @@
+body {
+  background-color:black
+}
+
 h1 {
   color: white;
   background-color: #0033cc;
   text-align: center;
   font-family: 'Raleway', sans-serif;
+}
+
+h2 {
+  color:white;
+  text-align: center;
+  font-family: 'Raleway', sans-serif;
+}
+
+p {
+  text-align: center;
+  color:white;
+}
+
+.quiz-buttons {
+  text-align: center;
 }
 
 .choices {
@@ -47,7 +66,7 @@ h1 {
 .question {
   font-size: 1.5rem;
   font-weight: bold;
-  color:
+  color:black
 }
 
 .choice-image {
@@ -74,4 +93,18 @@ h1 {
 
 .fa-times {
   color: #FF4136;
+}
+
+.streaming-services-container {
+  margin-bottom: 10px;
+  margin-top: 10px;
+  display: flex;
+  flex-direction: row;
+  width:100%;
+  text-align:center;
+}
+
+.streaming-service {
+  max-width:50%;
+  text-align: center;
 }
