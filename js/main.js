@@ -69,7 +69,7 @@ $(function () {
     location.reload()
     })
 
-  trendingMovies()
+  //trendingMovies()
   //trendingTvShows()
 
 
