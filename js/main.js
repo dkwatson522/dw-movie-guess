@@ -25,30 +25,40 @@ $(function () {
 
       if (currentId === correctId) {
         console.log("selected correct answer")
-        $(this).find($selectedChoice).parent().attr("class", "button-choice correct")
+        $(this).find($selectedChoice).parent().attr("class", "answer-choice fa fa-check fa-2x")
       } else {
         console.log("selected incorrect answer")
         //adds CSS style to incorrect selection
-        $(this).find($selectedChoice).parent().attr("class", "button-choice incorrect")
+        $(this).find($selectedChoice).parent().attr("class", "answer-choice fa fa-times fa-2x")
         //adds CSS style to choice with correct ID
-        $(this).find("#" + correctId).parent().attr("class", "button-choice correct")
+        $(this).find("#" + correctId).parent().attr("class", "answer-choice fa fa-check fa-2x")
       }
     })
   })
   //add anonymous arrow function for previous button
-  $("#previous").click(() => {
+  $("#go-back").click(() => {
+    window.location.href = 'index.html'
     // console.log("previous")
-    $(this).css("background", "red")
   })
 
   $("#movie-link").click(() => {
     window.location.href = 'movie_quiz.html'
+    window.onload = function() {
+      trendingMovies();
+    }
     console.log("go to movie quiz")
   })
 
+  $("#tv-link").click(() => {
+    window.location.href = 'tv_quiz.html'
+    window.onload = function() {
+      trendingTvShows();
+    }
+    console.log("go to tv quiz")
+  })
   trendingMovies()
-  trendingTvShows()
-  //updateScore()
+  //trendingTvShows()
+
 
   function trendingMovies() {
     $.ajax({
@@ -77,7 +87,11 @@ $(function () {
       data: { api_key: apiKey }
     })
       .done((response) => {
-        const movies = response.results
+        const tvShows = response.results
+        //  console.log(response)
+
+        // console.log(movies)
+        //$("#movie").text(output)
 
         createQuestions(tvShows)
       })
