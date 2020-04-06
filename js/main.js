@@ -56,6 +56,11 @@ $(function () {
     }
     console.log("go to tv quiz")
   })
+
+  $("#reset").click(() => {
+    location.reload()
+    })
+
   trendingMovies()
   //trendingTvShows()
 
