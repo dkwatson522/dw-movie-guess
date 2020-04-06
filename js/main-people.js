@@ -50,13 +50,13 @@ $(function () {
     console.log("go to movie quiz")
   })
 
-  $("#tv-link").click(() => {
-    window.location.href = 'tv_quiz.html'
-    window.onload = function() {
-      trendingTvShows();
-    }
-    console.log("go to tv quiz")
-  })
+  // $("#tv-link").click(() => {
+  //   window.location.href = 'tv_quiz.html'
+  //   window.onload = function() {
+  //     trendingTvShows();
+  //   }
+  //   console.log("go to tv quiz")
+  // })
 
   $("#people-link").click(() => {
     window.location.href = 'people_quiz.html'
