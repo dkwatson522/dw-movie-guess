@@ -1,12 +1,16 @@
 $(function () {
-  const questionList = []
+  let questionList = []
   const questionChoices = []
   let answerArray = []
   const apiKey = "768202ad02f0dc8a03660578ed2c5f4d"
   const trendingMovieUrl = "https://api.themoviedb.org/3/trending/movie/week"
   const trendingTvUrl = "https://api.themoviedb.org/3/trending/tv/week"
+  const trendingPeopleUrl = "https://api.themoviedb.org/3/trending/person/week"
   const imageUrl = "https://image.tmdb.org/t/p/w300_and_h450_bestv2/"
   let quizScore = 0
+
+  $('.quiz-container').hide()
+
   //add anonymous arrow function for next button
   $("#see-results").click(() => {
     //console.log("results")
@@ -37,83 +41,115 @@ $(function () {
   })
   //add anonymous arrow function for previous button
   $("#go-back").click(() => {
-    window.location.href = 'index.html'
-    // console.log("previous")
+    console.log('clicking home button')
+    $('.home-container').show()
+    $('.quiz-container').hide()
   })
 
   $("#movie-link").click(() => {
-    window.location.href = 'movie_quiz.html'
-    window.onload = function() {
-      trendingMovies();
-    }
+    // window.location.pathname = '/movie_quiz.html'
+    // window.location.href = 'http://localhost:1234/movie_quiz.html'
+    // window.onload = function() {
+      // trendingMovies();
+    // }
     console.log("go to movie quiz")
+    trendingMovies()
+    $('.home-container').hide()
+    $('.quiz-container').show()
   })
 
-  // $("#tv-link").click(() => {
-  //   window.location.href = 'tv_quiz.html'
-  //   window.onload = function() {
-  //     trendingTvShows();
-  //   }
-  //   console.log("go to tv quiz")
-  // })
+  $("#tv-link").click(() => {
+    // window.location.pathname = '/tv_quiz.html'
+    // window.location.href = 'http://localhost:1234/tv_quiz.html'
+    // window.onload = function() {
+    $('.home-container').hide()
+    $('.quiz-container').show()
+    trendingTvShows();
+    // }
+    console.log("go to tv quiz")
+  })
 
   $("#people-link").click(() => {
-    window.location.href = 'people_quiz.html'
-    window.onload = function() {
-      trendingTvShows();
-    }
-    console.log("go to tv quiz")
+    $('.home-container').hide()
+    $('.quiz-container').show()
+    trendingPeople();
+    // window.onclick = function() {
+      // trendingTvShows();
+    // }
+    //console.log("go to people quiz")
   })
 
   $("#reset").click(() => {
     location.reload()
-    })
+  })
 
-  trendingMovies()
-  //trendingTvShows()
+  updateUi()
 
 
   function trendingMovies() {
-    $.ajax({
-      url: trendingMovieUrl,
-      type: "GET",
-      data: { api_key: apiKey }
+    console.log('making API call to movies')
+    axios.get(trendingMovieUrl, {
+      params: {
+        api_key: apiKey
+      }
     })
-      .done((response) => {
-        const movies = response.results
-        //  console.log(response)
+    .then((response) => {
+      console.log(response)
+      const movies = response.data.results
+      questionList = []
+      return createQuestions(movies, 'movie')
+    })
 
-        // console.log(movies)
-        //$("#movie").text(output)
-
-        createQuestions(movies)
-      })
-      .fail(() => {
-        alert("an error occured")
-      })
   }
 
   function trendingTvShows() {
-    $.ajax({
-      url: trendingTvUrl,
-      type: "GET",
-      data: { api_key: apiKey }
+    console.log('making API call to tv')
+    axios.get(trendingTvUrl, {
+      params: {
+        api_key: apiKey
+      }
     })
-      .done((response) => {
-        const tvShows = response.results
-        //  console.log(response)
-
-        // console.log(movies)
-        //$("#movie").text(output)
-
-        createQuestions(tvShows)
-      })
-      .fail(() => {
-        alert("an error occured")
-      })
+    .then((response) => {
+      console.log(response)
+      const shows = response.data.results
+      questionList = []
+      return createQuestions(shows, 'tv')
+    })
   }
 
-  function createQuestions(results) {
+  function trendingPeople() {
+    console.log('making API call to people')
+    axios.get(trendingPeopleUrl, {
+      params: {
+        api_key: apiKey
+      }
+    })
+    .then((response) => {
+      console.log(response)
+      const people = response.data.results
+      questionList = []
+      return createQuestions(people, 'people')
+    })
+
+
+    // $.ajax({
+    //   url: trendingPeopleUrl,
+    //   type: "GET",
+    //   data: { api_key: apiKey }
+    // })
+    //   .done((response) => {
+    //     const people = response.results
+    //     //  console.log(response)
+    //
+    //     createQuestions(people)
+    //   })
+    //   .fail(() => {
+    //     alert("an error occured")
+    //   })
+
+  }
+
+  function createQuestions(results, quizType) {
     //lojack to shuffle the parameter passed into function
     const shuffledResults = _.shuffle(results)
     // console.log(shuffledResults)
@@ -130,18 +166,25 @@ $(function () {
       }
 
     })
-    //console.log(questionList)
-
-    updateUi(questionList)
+    // console.log(questionList)
+    updateUi(quizType)
+    return questionList
   }
 
-  function updateUi(choices) {
-    console.log(choices)
+  function updateUi(quizType) {
+    $('.question-list').html('')
+    console.log(questionList)
     //4 choices for each question; 5 questions
     //loop through the questionList array to pull the 4 properties for title
     //prints the amount of arrays there are
     questionList.forEach((questions) => {
-      const questionHtml = processQuestion(questions)
+
+      let questionHtml
+      if (quizType === 'people') {
+        questionHtml = processPeopleQuestion(questions)
+      } else if (quizType === 'movie' || quizType === 'tv') {
+        questionHtml = processQuestion(questions)
+      }
       //console.log(questionHtml)
       $(".question-list").append(questionHtml)
     })
@@ -150,7 +193,7 @@ $(function () {
   function processQuestion(movies) {
     //select a random movie to be the correct movie
     const selectedMovie = _.sample(movies)
-    console.log(selectedMovie)
+    //console.log(selectedMovie)
     answerArray.push(selectedMovie.id)
     const choicesHtml = movies.map((movie) => {
       return buildAnswerChoiceHtml(movie.title,movie.id,movie.poster_path,selectedMovie.id)
@@ -186,8 +229,49 @@ $(function () {
       </div>`
     )
   }
-  // function updateScore() {
-  //   let buttonChoice =  answerArray.includes(parseInt($('input[type=radio][name=${}]:checked').attr('id')))
-  //   console.log(buttonChoice)
-  // }
+
+  //****PEOPLE quiz functions*****
+  function processPeopleQuestion(people) {
+    //select a random movie to be the correct movie
+    const selectedPerson = _.sample(people)
+    console.log(selectedPerson)
+    answerArray.push(selectedPerson.id)
+    const choicesHtml = people.map((person) => {
+      return buildPeopleAnswerChoiceHtml(person.name,person.id,person.known_for_department,person.profile_path,selectedPerson.id)
+    }).join('')
+    //console.log(choicesHtml)
+    return buildPeopleQuestionHtml(selectedPerson.known_for[0].title,selectedPerson.known_for[0].overview,selectedPerson.known_for[1].title,selectedPerson.known_for[1].overview,selectedPerson.known_for[2].title,selectedPerson.known_for[2].overview, choicesHtml)
+  }
+
+  function buildPeopleAnswerChoiceHtml (personName,personId,personKnownFor,personImage,selectedPersonId) {
+    return (
+      `<div class="answer-choice">
+        <input type="radio" class="choice-button" name="${selectedPersonId}" id="${personId}">
+        <span class='answer-choice-label'> <img class="choice-image" src="${imageUrl}${personImage}"></img> ${personName}</span>
+      </div>`
+    )
+  }
+
+  function buildPeopleQuestionHtml(personKnownForZero,movieOverviewZero,personKnownForOne,movieOverviewOne,personKnownForTwo,movieOverviewTwo, answerChoicesHtml) {
+    return (
+      `<div class="question-container">
+        <p class="question">
+          This person is asscoiated with
+        </p>
+        <ol>
+          <li>${personKnownForZero} - ${movieOverviewZero}</li>
+          <li>${personKnownForOne} - ${movieOverviewOne}</li>
+          <li>${personKnownForTwo} - ${movieOverviewTwo}</li>
+        </ol>
+        <div class="choices-container">
+          <div class="choices-header">
+            Choices:
+              <div class="choices">
+                ${answerChoicesHtml}
+              </div>
+          </div>
+        </div>
+      </div>`
+    )
+  }
 })

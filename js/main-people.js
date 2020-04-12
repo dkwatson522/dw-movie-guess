@@ -75,6 +75,7 @@ $(function () {
 
 
   function trendingPeople() {
+    console.log('calling People API')
     $.ajax({
       url: trendingPeopleUrl,
       type: "GET",
@@ -135,7 +136,7 @@ $(function () {
       return buildAnswerChoiceHtml(person.name,person.id,person.known_for_department,person.profile_path,selectedPerson.id)
     }).join('')
     //console.log(choicesHtml)
-    return buildQuestionHtml(selectedPerson.known_for[0].title,selectedPerson.known_for[1].title,selectedPerson.known_for[2].title, choicesHtml)
+    return buildQuestionHtml(selectedPerson.known_for[0].title,selectedPerson.known_for[0].overview,selectedPerson.known_for[1].title,selectedPerson.known_for[1].overview,selectedPerson.known_for[2].title,selectedPerson.known_for[2].overview, choicesHtml)
   }
 
   function buildAnswerChoiceHtml (personName,personId,personKnownFor,personImage,selectedPersonId) {
@@ -147,16 +148,16 @@ $(function () {
     )
   }
 
-  function buildQuestionHtml(personKnownForZero,personKnownForOne,personKnownForTwo, answerChoicesHtml) {
+  function buildQuestionHtml(personKnownForZero,movieOverviewZero,personKnownForOne,movieOverviewOne,personKnownForTwo,movieOverviewTwo, answerChoicesHtml) {
     return (
       `<div class="question-container">
         <p class="question">
           This person is asscoiated with
         </p>
         <ol>
-          <li>${personKnownForZero}</li>
-          <li>${personKnownForOne}</li>
-          <li>${personKnownForTwo}</li>
+          <li>${personKnownForZero} - ${movieOverviewZero}</li>
+          <li>${personKnownForOne} - ${movieOverviewOne}</li>
+          <li>${personKnownForTwo} - ${movieOverviewTwo}</li>
         </ol>
         <div class="choices-container">
           <div class="choices-header">

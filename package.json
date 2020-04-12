@@ -1,0 +1,22 @@
+{
+  "name": "dw-movie-guess",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dkwatson522/dw-movie-guess.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dkwatson522/dw-movie-guess/issues"
+  },
+  "homepage": "https://github.com/dkwatson522/dw-movie-guess#readme"
+}

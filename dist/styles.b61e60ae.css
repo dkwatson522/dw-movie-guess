@@ -1,0 +1,119 @@
+body {
+  background-color:black
+}
+
+h1 {
+  color: white;
+  background-color: #0033cc;
+  text-align: center;
+  font-family: 'Raleway', sans-serif;
+}
+
+h2 {
+  color:white;
+  text-align: center;
+  font-family: 'Raleway', sans-serif;
+}
+
+p {
+  text-align: center;
+  color:white;
+}
+
+.quiz-buttons {
+  text-align: center;
+  font-size: 100px;
+}
+
+.choices {
+  margin-bottom: 10px;
+  margin-top: 10px;
+  display: flex;
+  flex-direction: row;
+  width:100%;
+  text-align:center;
+}
+
+.answer-choice {
+  width: calc(100% / 4);
+  display: inline-block;
+  vertical-align: bottom;
+  border:5px solid #FFDC00;
+  text-align:center;
+  margin:2%;
+  padding:20px;
+  display: flex;
+  margin-bottom: 10px;
+}
+
+.answer-choice-label {
+  margin-left: 10px;
+  text-align:center;
+  /* word-wrap: break-word; */
+
+}
+
+.answer-choice-label span{
+  /* margin-left: 10px; */
+  word-wrap: break-word;
+  text-align:center;
+}
+
+.choices-header {
+  font-size: 1.2rem;
+  /* font-weight: bold; */
+}
+
+.question {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color:black
+}
+
+.choice-image {
+  max-width: 100px; /* you can use % */
+  height: auto;
+  text-align: center;
+  display: block;
+}
+
+.quiz-container{
+  position: relative
+}
+
+.question-container {
+  /* float: left;
+  width: 100%; */
+  background-color: #FFFFFF;
+  color: #4d79ff;
+}
+
+.fa-check {
+  color: #2ECC40;
+}
+
+.fa-times {
+  color: #FF4136;
+}
+
+.streaming-services-container {
+  margin-bottom: 10px;
+  margin-top: 10px;
+  display: flex;
+  flex-direction: row;
+  width:100%;
+  text-align:center;
+}
+
+.streaming-service {
+  max-width:50%;
+  text-align: center;
+}
+
+ol {
+  font-family: 'Raleway', sans-serif;
+  font-size: 1.5rem;
+}
+
+
+/*# sourceMappingURL=/styles.b61e60ae.css.map */
