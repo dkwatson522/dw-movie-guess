@@ -126,71 +126,52 @@ $(function () {
   var trendingMovieUrl = "https://api.themoviedb.org/3/trending/movie/week";
   var trendingTvUrl = "https://api.themoviedb.org/3/trending/tv/week";
   var trendingPeopleUrl = "https://api.themoviedb.org/3/trending/person/week";
-  var imageUrl = "https://image.tmdb.org/t/p/w300_and_h450_bestv2/";
-  var quizScore = 0;
-  $('.quiz-container').hide(); //add anonymous arrow function for next button
+  var imageUrl = "https://image.tmdb.org/t/p/w300_and_h450_bestv2/"; //let quizScore = 0
+  //initial hide of quiz container
 
+  $('.quiz-container').hide();
   $("#see-results").click(function () {
-    //console.log("results")
     $(".choices").each(function (index) {
-      // // answerArray.includes(parseInt($('input[type=radio][name=${}]:checked').attr('id')))
-      // var item1 = $( "li.item-1" )[ 0 ];
-      // $( "li.item-ii" ).find( item1 ).css( "background-color", "red" );
-      //$ as jQuery object(naming convention;best practice)
-      var $selectedChoice = $("input:checked");
-      console.log($(this).find($selectedChoice).attr("id"));
-      var currentId = $(this).find($selectedChoice).attr("id");
-      console.log("Current ID - ".concat(currentId));
-      var correctId = $(this).find("input").first().attr("name");
-      console.log("Correct ID - ".concat(correctId));
-      console.log(currentId === correctId);
+      var $selectedChoice = $("input:checked"); // console.log($(this).find($selectedChoice).attr("id"))
+
+      var currentId = $(this).find($selectedChoice).attr("id"); // console.log(`Current ID - ${currentId}`)
+
+      var correctId = $(this).find("input").first().attr("name"); // console.log(`Correct ID - ${correctId}`)
+      // console.log(currentId === correctId)
 
       if (currentId === correctId) {
-        console.log("selected correct answer");
+        // console.log("selected correct answer")
         $(this).find($selectedChoice).parent().attr("class", "answer-choice fa fa-check fa-2x");
       } else {
-        console.log("selected incorrect answer"); //adds CSS style to incorrect selection
-
+        // console.log("selected incorrect answer")
+        //adds CSS style to incorrect selection
         $(this).find($selectedChoice).parent().attr("class", "answer-choice fa fa-times fa-2x"); //adds CSS style to choice with correct ID
 
         $(this).find("#" + correctId).parent().attr("class", "answer-choice fa fa-check fa-2x");
       }
     });
-  }); //add anonymous arrow function for previous button
-
-  $("#go-back").click(function () {
-    console.log('clicking home button');
+  });
+  $("#home").click(function () {
     $('.home-container').show();
     $('.quiz-container').hide();
   });
   $("#movie-link").click(function () {
-    // window.location.pathname = '/movie_quiz.html'
-    // window.location.href = 'http://localhost:1234/movie_quiz.html'
-    // window.onload = function() {
-    // trendingMovies();
-    // }
-    console.log("go to movie quiz");
-    trendingMovies();
     $('.home-container').hide();
+    $('.quiz-container').hide();
     $('.quiz-container').show();
+    trendingMovies();
   });
   $("#tv-link").click(function () {
-    // window.location.pathname = '/tv_quiz.html'
-    // window.location.href = 'http://localhost:1234/tv_quiz.html'
-    // window.onload = function() {
     $('.home-container').hide();
+    $('.quiz-container').hide();
     $('.quiz-container').show();
-    trendingTvShows(); // }
-
-    console.log("go to tv quiz");
+    trendingTvShows();
   });
   $("#people-link").click(function () {
     $('.home-container').hide();
+    $('.quiz-container').hide();
     $('.quiz-container').show();
-    trendingPeople(); // window.onclick = function() {
-    // trendingTvShows();
-    // }
-    //console.log("go to people quiz")
+    trendingPeople();
   });
   $("#reset").click(function () {
     location.reload();
@@ -198,13 +179,13 @@ $(function () {
   updateUi();
 
   function trendingMovies() {
-    console.log('making API call to movies');
+    //console.log('making API call to movies')
     axios.get(trendingMovieUrl, {
       params: {
         api_key: apiKey
       }
     }).then(function (response) {
-      console.log(response);
+      //console.log(response)
       var movies = response.data.results;
       questionList = [];
       return createQuestions(movies, 'movie');
@@ -212,13 +193,13 @@ $(function () {
   }
 
   function trendingTvShows() {
-    console.log('making API call to tv');
+    //console.log('making API call to tv')
     axios.get(trendingTvUrl, {
       params: {
         api_key: apiKey
       }
     }).then(function (response) {
-      console.log(response);
+      //console.log(response)
       var shows = response.data.results;
       questionList = [];
       return createQuestions(shows, 'tv');
@@ -226,30 +207,17 @@ $(function () {
   }
 
   function trendingPeople() {
-    console.log('making API call to people');
+    //console.log('making API call to people')
     axios.get(trendingPeopleUrl, {
       params: {
         api_key: apiKey
       }
     }).then(function (response) {
-      console.log(response);
+      //console.log(response)
       var people = response.data.results;
       questionList = [];
       return createQuestions(people, 'people');
-    }); // $.ajax({
-    //   url: trendingPeopleUrl,
-    //   type: "GET",
-    //   data: { api_key: apiKey }
-    // })
-    //   .done((response) => {
-    //     const people = response.results
-    //     //  console.log(response)
-    //
-    //     createQuestions(people)
-    //   })
-    //   .fail(() => {
-    //     alert("an error occured")
-    //   })
+    });
   }
 
   function createQuestions(results, quizType) {
@@ -269,15 +237,13 @@ $(function () {
         questionList.push(question);
         question = [];
       }
-    }); // console.log(questionList)
-
+    });
     updateUi(quizType);
     return questionList;
   }
 
   function updateUi(quizType) {
-    $('.question-list').html('');
-    console.log(questionList); //4 choices for each question; 5 questions
+    $('.question-list').html(''); //4 choices for each question; 5 questions
     //loop through the questionList array to pull the 4 properties for title
     //prints the amount of arrays there are
 
@@ -286,34 +252,58 @@ $(function () {
 
       if (quizType === 'people') {
         questionHtml = processPeopleQuestion(questions);
-      } else if (quizType === 'movie' || quizType === 'tv') {
-        questionHtml = processQuestion(questions);
-      } //console.log(questionHtml)
-
+      } else if (quizType === 'movie') {
+        questionHtml = processMovieQuestion(questions);
+      } else if (quizType === 'tv') {
+        questionHtml = processTvQuestion(questions);
+      }
 
       $(".question-list").append(questionHtml);
     });
-  }
+  } //****MOVIE quiz functions*****
 
-  function processQuestion(movies) {
+
+  function processMovieQuestion(movies) {
     //select a random movie to be the correct movie
     var selectedMovie = _.sample(movies); //console.log(selectedMovie)
 
 
     answerArray.push(selectedMovie.id);
     var choicesHtml = movies.map(function (movie) {
-      return buildAnswerChoiceHtml(movie.title, movie.id, movie.poster_path, selectedMovie.id);
+      return buildMovieAnswerChoiceHtml(movie.title, movie.id, movie.poster_path, selectedMovie.id);
     }).join(''); //console.log(choicesHtml)
 
-    return buildQuestionHtml(selectedMovie.overview, choicesHtml);
+    return buildMovieQuestionHtml(selectedMovie.overview, choicesHtml);
   }
 
-  function buildAnswerChoiceHtml(movieTitle, movieId, movieImage, selectedMovieId) {
+  function buildMovieAnswerChoiceHtml(movieTitle, movieId, movieImage, selectedMovieId) {
     return "<div class=\"answer-choice\">\n        <input type=\"radio\" class=\"choice-button\" name=\"".concat(selectedMovieId, "\" id=\"").concat(movieId, "\">\n        <span class='answer-choice-label'> <img class=\"choice-image\" src=\"").concat(imageUrl).concat(movieImage, "\"></img> ").concat(movieTitle, "</span>\n      </div>");
   }
 
-  function buildQuestionHtml(movieOverview, answerChoicesHtml) {
-    return "<div class=\"question-container\">\n        <p class=\"question\">\n          Movie Overview -  ".concat(movieOverview, "\n        </p>\n\n        <div class=\"choices-container\">\n          <div class=\"choices-header\">\n            Choices:\n              <div class=\"choices\">\n                ").concat(answerChoicesHtml, "\n              </div>\n          </div>\n        </div>\n      </div>");
+  function buildMovieQuestionHtml(movieOverview, answerChoicesHtml) {
+    return "<div class=\"question-container\">\n        <p class=\"question\">\n          Movie Overview -  ".concat(movieOverview, "\n        </p>\n\n        <div class=\"choices-container\">\n          <div class=\"choices-header\">\n            Select One Movie:\n              <div class=\"choices\">\n                ").concat(answerChoicesHtml, "\n              </div>\n          </div>\n        </div>\n      </div>");
+  } //****TV quiz functions*****
+
+
+  function processTvQuestion(shows) {
+    //select a random movie to be the correct movie
+    var selectedShow = _.sample(shows); //console.log(selectedMovie)
+
+
+    answerArray.push(selectedShow.id);
+    var choicesHtml = shows.map(function (show) {
+      return buildTvAnswerChoiceHtml(show.name, show.id, show.poster_path, selectedShow.id);
+    }).join(''); //console.log(choicesHtml)
+
+    return buildTvQuestionHtml(selectedShow.overview, choicesHtml);
+  }
+
+  function buildTvAnswerChoiceHtml(showName, showId, showImage, selectedShowId) {
+    return "<div class=\"answer-choice\">\n        <input type=\"radio\" class=\"choice-button\" name=\"".concat(selectedShowId, "\" id=\"").concat(showId, "\">\n        <span class='answer-choice-label'> <img class=\"choice-image\" src=\"").concat(imageUrl).concat(showImage, "\"></img> ").concat(showName, "</span>\n      </div>");
+  }
+
+  function buildTvQuestionHtml(showOverview, answerChoicesHtml) {
+    return "<div class=\"question-container\">\n        <p class=\"question\">\n          Show Overview -  ".concat(showOverview, "\n        </p>\n\n        <div class=\"choices-container\">\n          <div class=\"choices-header\">\n            Select One Show:\n              <div class=\"choices\">\n                ").concat(answerChoicesHtml, "\n              </div>\n          </div>\n        </div>\n      </div>");
   } //****PEOPLE quiz functions*****
 
 
@@ -321,12 +311,10 @@ $(function () {
     //select a random movie to be the correct movie
     var selectedPerson = _.sample(people);
 
-    console.log(selectedPerson);
     answerArray.push(selectedPerson.id);
     var choicesHtml = people.map(function (person) {
       return buildPeopleAnswerChoiceHtml(person.name, person.id, person.known_for_department, person.profile_path, selectedPerson.id);
-    }).join(''); //console.log(choicesHtml)
-
+    }).join('');
     return buildPeopleQuestionHtml(selectedPerson.known_for[0].title, selectedPerson.known_for[0].overview, selectedPerson.known_for[1].title, selectedPerson.known_for[1].overview, selectedPerson.known_for[2].title, selectedPerson.known_for[2].overview, choicesHtml);
   }
 
@@ -335,7 +323,7 @@ $(function () {
   }
 
   function buildPeopleQuestionHtml(personKnownForZero, movieOverviewZero, personKnownForOne, movieOverviewOne, personKnownForTwo, movieOverviewTwo, answerChoicesHtml) {
-    return "<div class=\"question-container\">\n        <p class=\"question\">\n          This person is asscoiated with\n        </p>\n        <ol>\n          <li>".concat(personKnownForZero, " - ").concat(movieOverviewZero, "</li>\n          <li>").concat(personKnownForOne, " - ").concat(movieOverviewOne, "</li>\n          <li>").concat(personKnownForTwo, " - ").concat(movieOverviewTwo, "</li>\n        </ol>\n        <div class=\"choices-container\">\n          <div class=\"choices-header\">\n            Choices:\n              <div class=\"choices\">\n                ").concat(answerChoicesHtml, "\n              </div>\n          </div>\n        </div>\n      </div>");
+    return "<div class=\"question-container\">\n        <p class=\"question\">\n          This person is asscoiated with - \n        </p>\n        <ol>\n          <li><u>".concat(personKnownForZero, "</u>: ").concat(movieOverviewZero, "</li>\n          <li><u>").concat(personKnownForOne, "</u>: ").concat(movieOverviewOne, "</li>\n          <li><u>").concat(personKnownForTwo, "</u>: ").concat(movieOverviewTwo, "</li>\n        </ol>\n        <div class=\"choices-container\">\n          <div class=\"choices-header\">\n            Select One Person:\n              <div class=\"choices\">\n                ").concat(answerChoicesHtml, "\n              </div>\n          </div>\n        </div>\n      </div>");
   }
 });
 },{}],"../../../../../usr/local/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {

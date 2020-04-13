@@ -7,31 +7,26 @@ $(function () {
   const trendingTvUrl = "https://api.themoviedb.org/3/trending/tv/week"
   const trendingPeopleUrl = "https://api.themoviedb.org/3/trending/person/week"
   const imageUrl = "https://image.tmdb.org/t/p/w300_and_h450_bestv2/"
-  let quizScore = 0
+  //let quizScore = 0
 
+  //initial hide of quiz container
   $('.quiz-container').hide()
 
-  //add anonymous arrow function for next button
   $("#see-results").click(() => {
-    //console.log("results")
     $(".choices").each(function(index) {
-      // // answerArray.includes(parseInt($('input[type=radio][name=${}]:checked').attr('id')))
-      // var item1 = $( "li.item-1" )[ 0 ];
-      // $( "li.item-ii" ).find( item1 ).css( "background-color", "red" );
-      //$ as jQuery object(naming convention;best practice)
       const $selectedChoice = $("input:checked")
-      console.log($(this).find($selectedChoice).attr("id"))
+      // console.log($(this).find($selectedChoice).attr("id"))
       const currentId = $(this).find($selectedChoice).attr("id")
-      console.log(`Current ID - ${currentId}`)
+      // console.log(`Current ID - ${currentId}`)
       const correctId = $(this).find("input").first().attr("name")
-      console.log(`Correct ID - ${correctId}`)
-      console.log(currentId === correctId)
+      // console.log(`Correct ID - ${correctId}`)
+      // console.log(currentId === correctId)
 
       if (currentId === correctId) {
-        console.log("selected correct answer")
+        // console.log("selected correct answer")
         $(this).find($selectedChoice).parent().attr("class", "answer-choice fa fa-check fa-2x")
       } else {
-        console.log("selected incorrect answer")
+        // console.log("selected incorrect answer")
         //adds CSS style to incorrect selection
         $(this).find($selectedChoice).parent().attr("class", "answer-choice fa fa-times fa-2x")
         //adds CSS style to choice with correct ID
@@ -39,44 +34,31 @@ $(function () {
       }
     })
   })
-  //add anonymous arrow function for previous button
-  $("#go-back").click(() => {
-    console.log('clicking home button')
+
+  $("#home").click(() => {
     $('.home-container').show()
     $('.quiz-container').hide()
   })
 
   $("#movie-link").click(() => {
-    // window.location.pathname = '/movie_quiz.html'
-    // window.location.href = 'http://localhost:1234/movie_quiz.html'
-    // window.onload = function() {
-      // trendingMovies();
-    // }
-    console.log("go to movie quiz")
-    trendingMovies()
     $('.home-container').hide()
+    $('.quiz-container').hide()
     $('.quiz-container').show()
+    trendingMovies()
   })
 
   $("#tv-link").click(() => {
-    // window.location.pathname = '/tv_quiz.html'
-    // window.location.href = 'http://localhost:1234/tv_quiz.html'
-    // window.onload = function() {
     $('.home-container').hide()
+    $('.quiz-container').hide()
     $('.quiz-container').show()
     trendingTvShows();
-    // }
-    console.log("go to tv quiz")
   })
 
   $("#people-link").click(() => {
     $('.home-container').hide()
+    $('.quiz-container').hide()
     $('.quiz-container').show()
     trendingPeople();
-    // window.onclick = function() {
-      // trendingTvShows();
-    // }
-    //console.log("go to people quiz")
   })
 
   $("#reset").click(() => {
@@ -87,14 +69,14 @@ $(function () {
 
 
   function trendingMovies() {
-    console.log('making API call to movies')
+    //console.log('making API call to movies')
     axios.get(trendingMovieUrl, {
       params: {
         api_key: apiKey
       }
     })
     .then((response) => {
-      console.log(response)
+      //console.log(response)
       const movies = response.data.results
       questionList = []
       return createQuestions(movies, 'movie')
@@ -103,14 +85,14 @@ $(function () {
   }
 
   function trendingTvShows() {
-    console.log('making API call to tv')
+    //console.log('making API call to tv')
     axios.get(trendingTvUrl, {
       params: {
         api_key: apiKey
       }
     })
     .then((response) => {
-      console.log(response)
+      //console.log(response)
       const shows = response.data.results
       questionList = []
       return createQuestions(shows, 'tv')
@@ -118,35 +100,18 @@ $(function () {
   }
 
   function trendingPeople() {
-    console.log('making API call to people')
+    //console.log('making API call to people')
     axios.get(trendingPeopleUrl, {
       params: {
         api_key: apiKey
       }
     })
     .then((response) => {
-      console.log(response)
+      //console.log(response)
       const people = response.data.results
       questionList = []
       return createQuestions(people, 'people')
     })
-
-
-    // $.ajax({
-    //   url: trendingPeopleUrl,
-    //   type: "GET",
-    //   data: { api_key: apiKey }
-    // })
-    //   .done((response) => {
-    //     const people = response.results
-    //     //  console.log(response)
-    //
-    //     createQuestions(people)
-    //   })
-    //   .fail(() => {
-    //     alert("an error occured")
-    //   })
-
   }
 
   function createQuestions(results, quizType) {
@@ -164,16 +129,13 @@ $(function () {
         questionList.push(question)
         question = []
       }
-
     })
-    // console.log(questionList)
     updateUi(quizType)
     return questionList
   }
 
   function updateUi(quizType) {
     $('.question-list').html('')
-    console.log(questionList)
     //4 choices for each question; 5 questions
     //loop through the questionList array to pull the 4 properties for title
     //prints the amount of arrays there are
@@ -182,27 +144,29 @@ $(function () {
       let questionHtml
       if (quizType === 'people') {
         questionHtml = processPeopleQuestion(questions)
-      } else if (quizType === 'movie' || quizType === 'tv') {
-        questionHtml = processQuestion(questions)
+      } else if (quizType === 'movie') {
+        questionHtml = processMovieQuestion(questions)
+      } else if (quizType === 'tv') {
+        questionHtml = processTvQuestion(questions)
       }
-      //console.log(questionHtml)
       $(".question-list").append(questionHtml)
     })
   }
 
-  function processQuestion(movies) {
+  //****MOVIE quiz functions*****
+  function processMovieQuestion(movies) {
     //select a random movie to be the correct movie
     const selectedMovie = _.sample(movies)
     //console.log(selectedMovie)
     answerArray.push(selectedMovie.id)
     const choicesHtml = movies.map((movie) => {
-      return buildAnswerChoiceHtml(movie.title,movie.id,movie.poster_path,selectedMovie.id)
+      return buildMovieAnswerChoiceHtml(movie.title,movie.id,movie.poster_path,selectedMovie.id)
     }).join('')
     //console.log(choicesHtml)
-    return buildQuestionHtml(selectedMovie.overview, choicesHtml)
+    return buildMovieQuestionHtml(selectedMovie.overview, choicesHtml)
   }
 
-  function buildAnswerChoiceHtml (movieTitle,movieId,movieImage,selectedMovieId) {
+  function buildMovieAnswerChoiceHtml (movieTitle,movieId,movieImage,selectedMovieId) {
     return (
       `<div class="answer-choice">
         <input type="radio" class="choice-button" name="${selectedMovieId}" id="${movieId}">
@@ -211,7 +175,7 @@ $(function () {
     )
   }
 
-  function buildQuestionHtml(movieOverview, answerChoicesHtml) {
+  function buildMovieQuestionHtml(movieOverview, answerChoicesHtml) {
     return (
       `<div class="question-container">
         <p class="question">
@@ -220,7 +184,48 @@ $(function () {
 
         <div class="choices-container">
           <div class="choices-header">
-            Choices:
+            Select One Movie:
+              <div class="choices">
+                ${answerChoicesHtml}
+              </div>
+          </div>
+        </div>
+      </div>`
+    )
+  }
+
+  //****TV quiz functions*****
+  function processTvQuestion(shows) {
+    //select a random movie to be the correct movie
+    const selectedShow = _.sample(shows)
+    //console.log(selectedMovie)
+    answerArray.push(selectedShow.id)
+    const choicesHtml = shows.map((show) => {
+      return buildTvAnswerChoiceHtml(show.name,show.id,show.poster_path,selectedShow.id)
+    }).join('')
+    //console.log(choicesHtml)
+    return buildTvQuestionHtml(selectedShow.overview, choicesHtml)
+  }
+
+  function buildTvAnswerChoiceHtml (showName,showId,showImage,selectedShowId) {
+    return (
+      `<div class="answer-choice">
+        <input type="radio" class="choice-button" name="${selectedShowId}" id="${showId}">
+        <span class='answer-choice-label'> <img class="choice-image" src="${imageUrl}${showImage}"></img> ${showName}</span>
+      </div>`
+    )
+  }
+
+  function buildTvQuestionHtml(showOverview, answerChoicesHtml) {
+    return (
+      `<div class="question-container">
+        <p class="question">
+          Show Overview -  ${showOverview}
+        </p>
+
+        <div class="choices-container">
+          <div class="choices-header">
+            Select One Show:
               <div class="choices">
                 ${answerChoicesHtml}
               </div>
@@ -234,12 +239,10 @@ $(function () {
   function processPeopleQuestion(people) {
     //select a random movie to be the correct movie
     const selectedPerson = _.sample(people)
-    console.log(selectedPerson)
     answerArray.push(selectedPerson.id)
     const choicesHtml = people.map((person) => {
       return buildPeopleAnswerChoiceHtml(person.name,person.id,person.known_for_department,person.profile_path,selectedPerson.id)
     }).join('')
-    //console.log(choicesHtml)
     return buildPeopleQuestionHtml(selectedPerson.known_for[0].title,selectedPerson.known_for[0].overview,selectedPerson.known_for[1].title,selectedPerson.known_for[1].overview,selectedPerson.known_for[2].title,selectedPerson.known_for[2].overview, choicesHtml)
   }
 
@@ -256,16 +259,16 @@ $(function () {
     return (
       `<div class="question-container">
         <p class="question">
-          This person is asscoiated with
+          This person is asscoiated with - 
         </p>
         <ol>
-          <li>${personKnownForZero} - ${movieOverviewZero}</li>
-          <li>${personKnownForOne} - ${movieOverviewOne}</li>
-          <li>${personKnownForTwo} - ${movieOverviewTwo}</li>
+          <li><u>${personKnownForZero}</u>: ${movieOverviewZero}</li>
+          <li><u>${personKnownForOne}</u>: ${movieOverviewOne}</li>
+          <li><u>${personKnownForTwo}</u>: ${movieOverviewTwo}</li>
         </ol>
         <div class="choices-container">
           <div class="choices-header">
-            Choices:
+            Select One Person:
               <div class="choices">
                 ${answerChoicesHtml}
               </div>
