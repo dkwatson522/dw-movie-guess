@@ -123,9 +123,9 @@ $(function () {
   var questionChoices = [];
   var answerArray = [];
   var apiKey = "768202ad02f0dc8a03660578ed2c5f4d";
-  var trendingMovieUrl = "https://api.themoviedb.org/3/trending/movie/week";
-  var trendingTvUrl = "https://api.themoviedb.org/3/trending/tv/week";
-  var trendingPeopleUrl = "https://api.themoviedb.org/3/trending/person/week";
+  var trendingMovieUrl = "https://api.themoviedb.org/3/trending/movie/day";
+  var trendingTvUrl = "https://api.themoviedb.org/3/trending/tv/day";
+  var trendingPeopleUrl = "https://api.themoviedb.org/3/trending/person/day";
   var imageUrl = "https://image.tmdb.org/t/p/w300_and_h450_bestv2/"; //let quizScore = 0
   //initial hide of quiz container
 
@@ -323,10 +323,10 @@ $(function () {
   }
 
   function buildPeopleQuestionHtml(personKnownForZero, movieOverviewZero, personKnownForOne, movieOverviewOne, personKnownForTwo, movieOverviewTwo, answerChoicesHtml) {
-    return "<div class=\"question-container\">\n        <p class=\"question\">\n          This person is asscoiated with - \n        </p>\n        <ol>\n          <li><u>".concat(personKnownForZero, "</u>: ").concat(movieOverviewZero, "</li>\n          <li><u>").concat(personKnownForOne, "</u>: ").concat(movieOverviewOne, "</li>\n          <li><u>").concat(personKnownForTwo, "</u>: ").concat(movieOverviewTwo, "</li>\n        </ol>\n        <div class=\"choices-container\">\n          <div class=\"choices-header\">\n            Select One Person:\n              <div class=\"choices\">\n                ").concat(answerChoicesHtml, "\n              </div>\n          </div>\n        </div>\n      </div>");
+    return "<div class=\"question-container\">\n        <p class=\"question\">\n          This person is asscoiated with -\n        </p>\n        <ol>\n          <li><u>".concat(personKnownForZero, "</u>: ").concat(movieOverviewZero, "</li>\n          <li><u>").concat(personKnownForOne, "</u>: ").concat(movieOverviewOne, "</li>\n          <li><u>").concat(personKnownForTwo, "</u>: ").concat(movieOverviewTwo, "</li>\n        </ol>\n        <div class=\"choices-container\">\n          <div class=\"choices-header\">\n            Select One Person:\n              <div class=\"choices\">\n                ").concat(answerChoicesHtml, "\n              </div>\n          </div>\n        </div>\n      </div>");
   }
 });
-},{}],"../../../../../usr/local/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -354,7 +354,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53702" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55667" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
@@ -530,5 +530,5 @@ function hmrAcceptRun(bundle, id) {
     return true;
   }
 }
-},{}]},{},["../../../../../usr/local/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","js/main.js"], null)
+},{}]},{},["node_modules/parcel-bundler/src/builtins/hmr-runtime.js","js/main.js"], null)
 //# sourceMappingURL=/main.fb6bbcaf.js.map

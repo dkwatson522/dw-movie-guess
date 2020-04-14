@@ -3,9 +3,9 @@ $(function () {
   const questionChoices = []
   let answerArray = []
   const apiKey = process.env.TMDB_API_KEY
-  const trendingMovieUrl = "https://api.themoviedb.org/3/trending/movie/week"
-  const trendingTvUrl = "https://api.themoviedb.org/3/trending/tv/week"
-  const trendingPeopleUrl = "https://api.themoviedb.org/3/trending/person/week"
+  const trendingMovieUrl = "https://api.themoviedb.org/3/trending/movie/day"
+  const trendingTvUrl = "https://api.themoviedb.org/3/trending/tv/day"
+  const trendingPeopleUrl = "https://api.themoviedb.org/3/trending/person/day"
   const imageUrl = "https://image.tmdb.org/t/p/w300_and_h450_bestv2/"
   //let quizScore = 0
 
@@ -259,7 +259,7 @@ $(function () {
     return (
       `<div class="question-container">
         <p class="question">
-          This person is asscoiated with - 
+          This person is asscoiated with -
         </p>
         <ol>
           <li><u>${personKnownForZero}</u>: ${movieOverviewZero}</li>
