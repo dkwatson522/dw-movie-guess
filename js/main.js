@@ -2,7 +2,8 @@ $(function () {
   let questionList = []
   const questionChoices = []
   let answerArray = []
-  const apiKey = process.env.TMDB_API_KEY
+  // const apiKey = process.env.TMDB_API_KEY
+  const apiKey = '768202ad02f0dc8a03660578ed2c5f4d'
   const trendingMovieUrl = "https://api.themoviedb.org/3/trending/movie/day"
   const trendingTvUrl = "https://api.themoviedb.org/3/trending/tv/day"
   const trendingPeopleUrl = "https://api.themoviedb.org/3/trending/person/day"
@@ -36,8 +37,9 @@ $(function () {
   })
 
   $("#home").click(() => {
-    $('.home-container').show()
-    $('.quiz-container').hide()
+    window.location.reload()
+    // $('.home-container').show()
+    // $('.quiz-container').hide()
   })
 
   $("#movie-link").click(() => {
