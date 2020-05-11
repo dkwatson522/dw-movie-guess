@@ -152,8 +152,8 @@ $(function () {
     });
   });
   $("#home").click(function () {
-    $('.home-container').show();
-    $('.quiz-container').hide();
+    window.location.reload(); // $('.home-container').show()
+    // $('.quiz-container').hide()
   });
   $("#movie-link").click(function () {
     $('.home-container').hide();
@@ -354,7 +354,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55667" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54770" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
