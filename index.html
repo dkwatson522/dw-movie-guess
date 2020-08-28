@@ -4,44 +4,49 @@
   <head>
     <meta charset="utf-8">
     <title>The Ultimate Media Test</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js">
     <link rel="stylesheet" href="./css/styles.css">
   </head>
   <body>
     <!-- Homepage content -->
-    <div class="home-container">
+    <div class="container">
       <h1>Welcome to the Ultimate Media Quiz!</h1>
-      <div class="streaming-services-container">
-        <div class="streaming-service">
-          <img src="https://assets.brand.microsites.netflix.io/assets/493f5bba-81a4-11e9-bf79-066b49664af6_cm_1440w.png?v=3"></img>
-        </div>
-        <div class="streaming-service">
-          <img src="https://s.yimg.com/uu/api/res/1.2/UiUxVLnrn4Ir8iMLM5uLCg--~B/aD0xMTI1O3c9MTUwMDtzbT0xO2FwcGlkPXl0YWNoeW9u/https://media-mbst-pub-ue1.s3.amazonaws.com/creatr-images/2019-10/dab92a80-f00d-11e9-b4fd-f39d3443cad6"></img>
-        </div>
-        <div class="streaming-service">
-          <img src="https://cordcuttersnews.com/wp-content/uploads/2019/09/Hulu-New-Logo-Rec.png"></img>
-        </div>
-        <div class="streaming-service">
-          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcS3p9Xnp-mp2YQgKxbWQ0K-DSY2WQqZgw_S01xzXayyPcQGY2sk&usqp=CAU"></img>
+      <div class="ui four column grid">
+        <div class="row">
+          <div class="column ui small image">
+            <svg>
+              <image xlink:href="https://assets.brand.microsites.netflix.io/assets/493f5bba-81a4-11e9-bf79-066b49664af6_cm_1440w.png?v=3" x="0" y="0" width="100%" height="100%"></image>
+            </svg>
+          </div>
+          <div class="column ui small image">
+            <svg>
+              <image xlink:href="https://s.yimg.com/uu/api/res/1.2/UiUxVLnrn4Ir8iMLM5uLCg--~B/aD0xMTI1O3c9MTUwMDtzbT0xO2FwcGlkPXl0YWNoeW9u/https://media-mbst-pub-ue1.s3.amazonaws.com/creatr-images/2019-10/dab92a80-f00d-11e9-b4fd-f39d3443cad6" x="0" y="0" width="100%" height="100%"></image>
+            </svg>
+          </div>
+          <div class="column ui small image">
+            <svg>
+              <image xlink:href="https://cordcuttersnews.com/wp-content/uploads/2019/09/Hulu-New-Logo-Rec.png" x="0" y="0" width="100%" height="100%"></image>
+            </svg>
+          </div>
+          <div class="column ui small image">
+            <svg>
+              <image xlink:href="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcS3p9Xnp-mp2YQgKxbWQ0K-DSY2WQqZgw_S01xzXayyPcQGY2sk&usqp=CAU" x="0" y="0" width="100%" height="100%"></image>
+            </svg>
+          </div>
         </div>
       </div>
-      <h2>Put your knowledge of entertainment to the test by taking the movie or TV quiz.</h2>
-      <div class="quiz-overview">
+      <h4>Put your knowledge of entertainment to the test by taking the quiz based on Movies, Television or People.</h4>
+      <div class="ui container">
         <p>Click below to begin!</p>
-      </div>
-      <div class="quiz-buttons">
-        <div class="quiz-button">
-          <button type="button" id="people-link">
-              Who is this? 👤
-          </button>
-
-          <button type="button" id="movie-link">
-              Can you guess the movie? 🎥
-          </button>
-
-          <button type="button" id="tv-link">
-              What TV Show is that? 📺
-          </button>
-        </div>
+        <button class="ui button" id="people-link">
+          Who is this?
+        </button>
+        <button class="ui button" id="movie-link">
+          Can you guess the movie?
+        </button>
+        <button class="ui button" id="tv-link">
+          What TV Show is that?
+        </button>
       </div>
     </div>
     <!-- Homepage content -->
@@ -60,9 +65,6 @@
           See Results
         </button>
 
-        <!-- <button type="button" id="reset">
-          Refresh Test
-        </button> -->
       </div>
     </div>
     <!--Quiz Body End -->

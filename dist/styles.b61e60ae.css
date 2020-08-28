@@ -3,6 +3,11 @@ body {
   font-family: 'Netflix Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
+.row {
+  display:flex;
+  flex-wrap:wrap;
+}
+
 h1 {
   color: white;
   background-color: #ff7040;

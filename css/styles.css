@@ -3,13 +3,19 @@ body {
   font-family: 'Netflix Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
+.row {
+  display:flex;
+  flex-wrap:wrap;
+  text-align: center;
+}
+
 h1 {
   color: white;
   background-color: #ff7040;
   text-align: center;
 }
 
-h2 {
+h4 {
   color:white;
   text-align: center;
 }
@@ -40,11 +46,6 @@ p {
   padding:20px;
   display: flex;
   margin-bottom: 10px;
-}
-
-.quiz-buttons {
-  text-align: center;
-  font-size: 100px;
 }
 
 .choices {
