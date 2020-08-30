@@ -7,7 +7,7 @@ $(function () {
   const trendingTvUrl = "https://api.themoviedb.org/3/trending/tv/day"
   const trendingPeopleUrl = "https://api.themoviedb.org/3/trending/person/day"
   const imageUrl = "https://image.tmdb.org/t/p/w300_and_h450_bestv2/"
-  //let quizScore = 0
+  let quizScore = 0
 
   //initial hide of quiz container
   $('.quiz-container').hide()
@@ -20,17 +20,20 @@ $(function () {
       // console.log(`Current ID - ${currentId}`)
       const correctId = $(this).find("input").first().attr("name")
       // console.log(`Correct ID - ${correctId}`)
-      // console.log(currentId === correctId)
+      console.log(currentId === correctId)
+
 
       if (currentId === correctId) {
         // console.log("selected correct answer")
-        $(this).find($selectedChoice).parent().attr("class", "answer-choice fa fa-check fa-2x")
+        $(this).find($selectedChoice).parent().attr("class", "answer-choice fa fa-check fa-2x container p-6 flex flex-col items-stretch text-center bg-green-200 justify-between font-sans");
+        quizScore++
+        console.log(quizScore)
       } else {
         // console.log("selected incorrect answer")
         //adds CSS style to incorrect selection
-        $(this).find($selectedChoice).parent().attr("class", "answer-choice fa fa-times fa-2x")
+        $(this).find($selectedChoice).parent().attr("class", "answer-choice fa fa-times fa-2x container p-6 flex flex-col items-stretch text-center bg-red-200 justify-between font-sans")
         //adds CSS style to choice with correct ID
-        $(this).find("#" + correctId).parent().attr("class", "answer-choice fa fa-check fa-2x")
+        $(this).find("#" + correctId).parent().attr("class", "answer-choice fa fa-check fa-2x container p-6 flex flex-col items-stretch text-center bg-green-200 justify-between font-sans")
       }
     })
   })
@@ -169,24 +172,34 @@ $(function () {
 
   function buildMovieAnswerChoiceHtml (movieTitle,movieId,movieImage,selectedMovieId) {
     return (
-      `<div class="answer-choice">
-        <input type="radio" class="choice-button" name="${selectedMovieId}" id="${movieId}">
-        <span class='answer-choice-label'> <img class="choice-image" src="${imageUrl}${movieImage}"></img> ${movieTitle}</span>
-      </div>`
+      `<div class="container p-6 flex flex-col items-stretch text-center hover:bg-orange-200 justify-between">
+        <span class='answer-choice-label'>
+          <img class="choice-image rounded-t-lg" src="${imageUrl}${movieImage}">
+          </img>
+        </span>
+        <span class="py-2 font-sans">
+          ${movieTitle}
+        </span>
+        <input type="radio" class="choice-button checked:bg-gray-900 checked:border-transparent self-center" name="${selectedMovieId}" id="${movieId}">
+      </div>
+      `
     )
   }
 
   function buildMovieQuestionHtml(movieOverview, answerChoicesHtml) {
     return (
-      `<div class="question-container">
-        <p class="question">
-          Movie Overview -  ${movieOverview}
-        </p>
+      `<div class="question-container border-double border-4 border-gray-600 flex flex-col p-4 mb-4">
+      <p class="question underline uppercase text-2xl">
+        Movie Overview -
+      </p>
+      <p class="p-4 justify-center">
+        ${movieOverview}
+      </p>
 
         <div class="choices-container">
-          <div class="choices-header">
+          <div class="choices-header font-bold">
             Select One Movie:
-              <div class="choices">
+              <div class="choices flex justify-center flex-col sm:flex-row align-baseline">
                 ${answerChoicesHtml}
               </div>
           </div>
@@ -199,35 +212,44 @@ $(function () {
   function processTvQuestion(shows) {
     //select a random movie to be the correct movie
     const selectedShow = _.sample(shows)
-    //console.log(selectedMovie)
+    // console.log(selectedShow)
     answerArray.push(selectedShow.id)
     const choicesHtml = shows.map((show) => {
       return buildTvAnswerChoiceHtml(show.name,show.id,show.poster_path,selectedShow.id)
     }).join('')
-    //console.log(choicesHtml)
+    // console.log(choicesHtml)
     return buildTvQuestionHtml(selectedShow.overview, choicesHtml)
   }
 
   function buildTvAnswerChoiceHtml (showName,showId,showImage,selectedShowId) {
     return (
-      `<div class="answer-choice">
-        <input type="radio" class="choice-button" name="${selectedShowId}" id="${showId}">
-        <span class='answer-choice-label'> <img class="choice-image" src="${imageUrl}${showImage}"></img> ${showName}</span>
-      </div>`
+      `<div class="container p-6 flex flex-col items-stretch text-center hover:bg-orange-200 justify-between">
+        <span class='answer-choice-label'>
+          <img class="choice-image rounded-t-lg" src="${imageUrl}${showImage}">
+          </img>
+        </span>
+        <span class="py-2 font-sans">
+          ${showName}
+        </span>
+        <input type="radio" class="choice-button checked:bg-gray-900 checked:border-transparent self-center" name="${selectedShowId}" id="${showId}">
+      </div>
+      `
     )
   }
 
   function buildTvQuestionHtml(showOverview, answerChoicesHtml) {
     return (
-      `<div class="question-container">
-        <p class="question">
-          Show Overview -  ${showOverview}
+      `<div class="question-container border-double border-4 border-gray-600 flex flex-col p-4 mb-4">
+        <p class="question underline uppercase text-2xl">
+          Show Overview -
         </p>
-
+        <p class="p-4 justify-center">
+          ${showOverview}
+        </p>
         <div class="choices-container">
-          <div class="choices-header">
+          <div class="choices-header font-bold">
             Select One Show:
-              <div class="choices">
+              <div class="choices flex flex-row">
                 ${answerChoicesHtml}
               </div>
           </div>
@@ -249,28 +271,49 @@ $(function () {
 
   function buildPeopleAnswerChoiceHtml (personName,personId,personKnownFor,personImage,selectedPersonId) {
     return (
-      `<div class="answer-choice">
-        <input type="radio" class="choice-button" name="${selectedPersonId}" id="${personId}">
-        <span class='answer-choice-label'> <img class="choice-image" src="${imageUrl}${personImage}"></img> ${personName}</span>
+      `<div class="container p-6 flex flex-col items-stretch text-center hover:bg-orange-200 justify-between">
+        <span class='answer-choice-label'>
+          <img class="choice-image rounded-t-lg" src="${imageUrl}${personImage}">
+          </img>
+        </span>
+        <span class="py-2 font-sans">
+          ${personName}
+        </span>
+        <input type="radio" class="choice-button checked:bg-gray-900 checked:border-transparent self-center" name="${selectedPersonId}" id="${personId}">
       </div>`
     )
   }
 
   function buildPeopleQuestionHtml(personKnownForZero,movieOverviewZero,personKnownForOne,movieOverviewOne,personKnownForTwo,movieOverviewTwo, answerChoicesHtml) {
     return (
-      `<div class="question-container">
-        <p class="question">
-          This person is asscoiated with -
+      `<div class="question-container border-double border-4 border-gray-600 flex flex-col p-4 mb-4">
+        <p class="question underline uppercase text-2xl">
+          This person is associated with -
         </p>
-        <ol>
-          <li><u>${personKnownForZero}</u>: ${movieOverviewZero}</li>
-          <li><u>${personKnownForOne}</u>: ${movieOverviewOne}</li>
-          <li><u>${personKnownForTwo}</u>: ${movieOverviewTwo}</li>
+        <ol class="flex flex-col p-4">
+          <li>
+            <span class="text-lg font-semibold uppercase justify-start">
+              ${personKnownForZero}
+            </span>
+            <p class="pl-4 italic">${movieOverviewZero}</p>
+          </li>
+          <li>
+            <span class="text-lg font-semibold uppercase justify-start">
+              ${personKnownForOne}
+            </span>
+            <p class="pl-4 italic">${movieOverviewOne}</p>
+          </li>
+          <li>
+            <span class="text-lg font-semibold uppercase justify-start">
+              ${personKnownForTwo}
+            </span>
+            <p class="pl-4 italic">${movieOverviewTwo}</p>
+          </li>
         </ol>
         <div class="choices-container">
-          <div class="choices-header">
+          <div class="choices-header font-bold">
             Select One Person:
-              <div class="choices">
+              <div class="choices flex justify-center flex-col sm:flex-row align-baseline">
                 ${answerChoicesHtml}
               </div>
           </div>

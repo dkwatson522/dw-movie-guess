@@ -126,8 +126,8 @@ $(function () {
   var trendingMovieUrl = "https://api.themoviedb.org/3/trending/movie/day";
   var trendingTvUrl = "https://api.themoviedb.org/3/trending/tv/day";
   var trendingPeopleUrl = "https://api.themoviedb.org/3/trending/person/day";
-  var imageUrl = "https://image.tmdb.org/t/p/w300_and_h450_bestv2/"; //let quizScore = 0
-  //initial hide of quiz container
+  var imageUrl = "https://image.tmdb.org/t/p/w300_and_h450_bestv2/";
+  var quizScore = 0; //initial hide of quiz container
 
   $('.quiz-container').hide();
   $("#see-results").click(function () {
@@ -137,17 +137,20 @@ $(function () {
       var currentId = $(this).find($selectedChoice).attr("id"); // console.log(`Current ID - ${currentId}`)
 
       var correctId = $(this).find("input").first().attr("name"); // console.log(`Correct ID - ${correctId}`)
-      // console.log(currentId === correctId)
+
+      console.log(currentId === correctId);
 
       if (currentId === correctId) {
         // console.log("selected correct answer")
-        $(this).find($selectedChoice).parent().attr("class", "answer-choice fa fa-check fa-2x");
+        $(this).find($selectedChoice).parent().attr("class", "answer-choice fa fa-check fa-2x container p-6 flex flex-col items-stretch text-center bg-green-200 justify-between font-sans");
+        quizScore++;
+        console.log(quizScore);
       } else {
         // console.log("selected incorrect answer")
         //adds CSS style to incorrect selection
-        $(this).find($selectedChoice).parent().attr("class", "answer-choice fa fa-times fa-2x"); //adds CSS style to choice with correct ID
+        $(this).find($selectedChoice).parent().attr("class", "answer-choice fa fa-times fa-2x container p-6 flex flex-col items-stretch text-center bg-red-200 justify-between font-sans"); //adds CSS style to choice with correct ID
 
-        $(this).find("#" + correctId).parent().attr("class", "answer-choice fa fa-check fa-2x");
+        $(this).find("#" + correctId).parent().attr("class", "answer-choice fa fa-check fa-2x container p-6 flex flex-col items-stretch text-center bg-green-200 justify-between font-sans");
       }
     });
   });
@@ -277,33 +280,33 @@ $(function () {
   }
 
   function buildMovieAnswerChoiceHtml(movieTitle, movieId, movieImage, selectedMovieId) {
-    return "<div class=\"answer-choice\">\n        <input type=\"radio\" class=\"choice-button\" name=\"".concat(selectedMovieId, "\" id=\"").concat(movieId, "\">\n        <span class='answer-choice-label'> <img class=\"choice-image\" src=\"").concat(imageUrl).concat(movieImage, "\"></img> ").concat(movieTitle, "</span>\n      </div>");
+    return "<div class=\"container p-6 flex flex-col items-stretch text-center hover:bg-orange-200 justify-between\">\n        <span class='answer-choice-label'>\n          <img class=\"choice-image rounded-t-lg\" src=\"".concat(imageUrl).concat(movieImage, "\">\n          </img>\n        </span>\n        <span class=\"py-2 font-sans\">\n          ").concat(movieTitle, "\n        </span>\n        <input type=\"radio\" class=\"choice-button checked:bg-gray-900 checked:border-transparent self-center\" name=\"").concat(selectedMovieId, "\" id=\"").concat(movieId, "\">\n      </div>\n      ");
   }
 
   function buildMovieQuestionHtml(movieOverview, answerChoicesHtml) {
-    return "<div class=\"question-container\">\n        <p class=\"question\">\n          Movie Overview -  ".concat(movieOverview, "\n        </p>\n\n        <div class=\"choices-container\">\n          <div class=\"choices-header\">\n            Select One Movie:\n              <div class=\"choices\">\n                ").concat(answerChoicesHtml, "\n              </div>\n          </div>\n        </div>\n      </div>");
+    return "<div class=\"question-container border-double border-4 border-gray-600 flex flex-col p-4 mb-4\">\n      <p class=\"question underline uppercase text-2xl\">\n        Movie Overview -\n      </p>\n      <p class=\"p-4 justify-center\">\n        ".concat(movieOverview, "\n      </p>\n\n        <div class=\"choices-container\">\n          <div class=\"choices-header font-bold\">\n            Select One Movie:\n              <div class=\"choices flex justify-center flex-col sm:flex-row align-baseline\">\n                ").concat(answerChoicesHtml, "\n              </div>\n          </div>\n        </div>\n      </div>");
   } //****TV quiz functions*****
 
 
   function processTvQuestion(shows) {
     //select a random movie to be the correct movie
-    var selectedShow = _.sample(shows); //console.log(selectedMovie)
+    var selectedShow = _.sample(shows); // console.log(selectedShow)
 
 
     answerArray.push(selectedShow.id);
     var choicesHtml = shows.map(function (show) {
       return buildTvAnswerChoiceHtml(show.name, show.id, show.poster_path, selectedShow.id);
-    }).join(''); //console.log(choicesHtml)
+    }).join(''); // console.log(choicesHtml)
 
     return buildTvQuestionHtml(selectedShow.overview, choicesHtml);
   }
 
   function buildTvAnswerChoiceHtml(showName, showId, showImage, selectedShowId) {
-    return "<div class=\"answer-choice\">\n        <input type=\"radio\" class=\"choice-button\" name=\"".concat(selectedShowId, "\" id=\"").concat(showId, "\">\n        <span class='answer-choice-label'> <img class=\"choice-image\" src=\"").concat(imageUrl).concat(showImage, "\"></img> ").concat(showName, "</span>\n      </div>");
+    return "<div class=\"container p-6 flex flex-col items-stretch text-center hover:bg-orange-200 justify-between\">\n        <span class='answer-choice-label'>\n          <img class=\"choice-image rounded-t-lg\" src=\"".concat(imageUrl).concat(showImage, "\">\n          </img>\n        </span>\n        <span class=\"py-2 font-sans\">\n          ").concat(showName, "\n        </span>\n        <input type=\"radio\" class=\"choice-button checked:bg-gray-900 checked:border-transparent self-center\" name=\"").concat(selectedShowId, "\" id=\"").concat(showId, "\">\n      </div>\n      ");
   }
 
   function buildTvQuestionHtml(showOverview, answerChoicesHtml) {
-    return "<div class=\"question-container\">\n        <p class=\"question\">\n          Show Overview -  ".concat(showOverview, "\n        </p>\n\n        <div class=\"choices-container\">\n          <div class=\"choices-header\">\n            Select One Show:\n              <div class=\"choices\">\n                ").concat(answerChoicesHtml, "\n              </div>\n          </div>\n        </div>\n      </div>");
+    return "<div class=\"question-container border-double border-4 border-gray-600 flex flex-col p-4 mb-4\">\n        <p class=\"question underline uppercase text-2xl\">\n          Show Overview -\n        </p>\n        <p class=\"p-4 justify-center\">\n          ".concat(showOverview, "\n        </p>\n        <div class=\"choices-container\">\n          <div class=\"choices-header font-bold\">\n            Select One Show:\n              <div class=\"choices flex flex-row\">\n                ").concat(answerChoicesHtml, "\n              </div>\n          </div>\n        </div>\n      </div>");
   } //****PEOPLE quiz functions*****
 
 
@@ -319,11 +322,11 @@ $(function () {
   }
 
   function buildPeopleAnswerChoiceHtml(personName, personId, personKnownFor, personImage, selectedPersonId) {
-    return "<div class=\"answer-choice\">\n        <input type=\"radio\" class=\"choice-button\" name=\"".concat(selectedPersonId, "\" id=\"").concat(personId, "\">\n        <span class='answer-choice-label'> <img class=\"choice-image\" src=\"").concat(imageUrl).concat(personImage, "\"></img> ").concat(personName, "</span>\n      </div>");
+    return "<div class=\"container p-6 flex flex-col items-stretch text-center hover:bg-orange-200 justify-between\">\n        <span class='answer-choice-label'>\n          <img class=\"choice-image rounded-t-lg\" src=\"".concat(imageUrl).concat(personImage, "\">\n          </img>\n        </span>\n        <span class=\"py-2 font-sans\">\n          ").concat(personName, "\n        </span>\n        <input type=\"radio\" class=\"choice-button checked:bg-gray-900 checked:border-transparent self-center\" name=\"").concat(selectedPersonId, "\" id=\"").concat(personId, "\">\n      </div>");
   }
 
   function buildPeopleQuestionHtml(personKnownForZero, movieOverviewZero, personKnownForOne, movieOverviewOne, personKnownForTwo, movieOverviewTwo, answerChoicesHtml) {
-    return "<div class=\"question-container\">\n        <p class=\"question\">\n          This person is asscoiated with -\n        </p>\n        <ol>\n          <li><u>".concat(personKnownForZero, "</u>: ").concat(movieOverviewZero, "</li>\n          <li><u>").concat(personKnownForOne, "</u>: ").concat(movieOverviewOne, "</li>\n          <li><u>").concat(personKnownForTwo, "</u>: ").concat(movieOverviewTwo, "</li>\n        </ol>\n        <div class=\"choices-container\">\n          <div class=\"choices-header\">\n            Select One Person:\n              <div class=\"choices\">\n                ").concat(answerChoicesHtml, "\n              </div>\n          </div>\n        </div>\n      </div>");
+    return "<div class=\"question-container border-double border-4 border-gray-600 flex flex-col p-4 mb-4\">\n        <p class=\"question underline uppercase text-2xl\">\n          This person is associated with -\n        </p>\n        <ol class=\"flex flex-col p-4\">\n          <li>\n            <span class=\"text-lg font-semibold uppercase justify-start\">\n              ".concat(personKnownForZero, "\n            </span>\n            <p class=\"pl-4 italic\">").concat(movieOverviewZero, "</p>\n          </li>\n          <li>\n            <span class=\"text-lg font-semibold uppercase justify-start\">\n              ").concat(personKnownForOne, "\n            </span>\n            <p class=\"pl-4 italic\">").concat(movieOverviewOne, "</p>\n          </li>\n          <li>\n            <span class=\"text-lg font-semibold uppercase justify-start\">\n              ").concat(personKnownForTwo, "\n            </span>\n            <p class=\"pl-4 italic\">").concat(movieOverviewTwo, "</p>\n          </li>\n        </ol>\n        <div class=\"choices-container\">\n          <div class=\"choices-header font-bold\">\n            Select One Person:\n              <div class=\"choices flex justify-center flex-col sm:flex-row align-baseline\">\n                ").concat(answerChoicesHtml, "\n              </div>\n          </div>\n        </div>\n      </div>");
   }
 });
 },{}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
@@ -354,7 +357,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56530" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59496" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
