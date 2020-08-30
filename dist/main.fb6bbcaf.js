@@ -130,6 +130,7 @@ $(function () {
   var quizScore = 0; //initial hide of quiz container
 
   $('.quiz-container').hide();
+  $('.quiz-navigation').hide();
   $("#see-results").click(function () {
     $(".choices").each(function (index) {
       var $selectedChoice = $("input:checked"); // console.log($(this).find($selectedChoice).attr("id"))
@@ -155,25 +156,29 @@ $(function () {
     });
   });
   $("#home").click(function () {
-    window.location.reload(); // $('.home-container').show()
-    // $('.quiz-container').hide()
+    window.location.reload();
+    $('.home-container').show();
+    $('.quiz-container').hide();
   });
   $("#movie-link").click(function () {
     $('.home-container').hide();
     $('.quiz-container').hide();
     $('.quiz-container').show();
+    $('.quiz-navigation').show();
     trendingMovies();
   });
   $("#tv-link").click(function () {
     $('.home-container').hide();
     $('.quiz-container').hide();
     $('.quiz-container').show();
+    $('.quiz-navigation').show();
     trendingTvShows();
   });
   $("#people-link").click(function () {
     $('.home-container').hide();
     $('.quiz-container').hide();
     $('.quiz-container').show();
+    $('.quiz-navigation').show();
     trendingPeople();
   });
   $("#reset").click(function () {

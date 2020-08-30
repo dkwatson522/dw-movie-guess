@@ -11,6 +11,8 @@ $(function () {
 
   //initial hide of quiz container
   $('.quiz-container').hide()
+  $('.quiz-navigation').hide()
+
 
   $("#see-results").click(() => {
     $(".choices").each(function(index) {
@@ -40,14 +42,15 @@ $(function () {
 
   $("#home").click(() => {
     window.location.reload()
-    // $('.home-container').show()
-    // $('.quiz-container').hide()
+    $('.home-container').show()
+    $('.quiz-container').hide()
   })
 
   $("#movie-link").click(() => {
     $('.home-container').hide()
     $('.quiz-container').hide()
     $('.quiz-container').show()
+    $('.quiz-navigation').show()
     trendingMovies()
   })
 
@@ -55,6 +58,7 @@ $(function () {
     $('.home-container').hide()
     $('.quiz-container').hide()
     $('.quiz-container').show()
+    $('.quiz-navigation').show()
     trendingTvShows();
   })
 
@@ -62,6 +66,7 @@ $(function () {
     $('.home-container').hide()
     $('.quiz-container').hide()
     $('.quiz-container').show()
+    $('.quiz-navigation').show()
     trendingPeople();
   })
 
